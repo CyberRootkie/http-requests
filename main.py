@@ -1,6 +1,6 @@
 # A noter, la librairie requests envoie automatiquement les headers encoding gzip et deflate et decode la réponse 
 import requests
-
+import re
 
 # Request simple
 url = 'https://en0cuocorbcbyp.x.pipedream.net/fichier.txt'
@@ -45,9 +45,29 @@ if r.history:
     for hist in r.history:
         print(hist.url, hist.status_code)
 
+# Envoyer un cookie
+url = 'https://en0cuocorbcbyp.x.pipedream.net/set_cookies.php'
+cookies = dict(nom_cookie='valeur_cookie')
+r = requests.get(url, cookies=cookies)
 
-# On envoie un cookie
+# Récupérer les cookies
+url = 'https://www.cnn.com/'
+r = requests.get(url)
+for k, v in r.cookies.items():
+    print(k, v)
 
-# Rechercher un élément dans une page avec regex
+# Rechercher la présence d'un formulaire
+url = 'https://www.python.org'
+r = requests.get(url)
+html = r.text
+if re.search('method="post|get"', html, re.IGNORECASE):
+    print('Trouvé')
+else:
+    print('pas trouvé')
 
-# Lire cet article : https://github.com/horizon3ai/CVE-2022-39952/blob/master/CVE-2022-39952.py
+# Récupérer la balise TITLE
+url = 'https://www.python.org'
+r = requests.get(url)
+html = r.text
+res = re.search('<title>([^<]+)</title>', html, re.IGNORECASE)
+title = res.group(1)
