@@ -10,6 +10,14 @@ status_code = r.status_code
 headers = r.headers
 html = r.text
 
+# Gestion du timeout
+url = 'https://en0cuocorbcbyp.x.pipedream.net/timeout.php'
+try:
+    r = requests.get(url, timeout=0.01)
+except requests.exceptions.ConnectTimeout:
+    print("TIMEOUT")
+
+
 # On définie des headers
 url = 'https://en0cuocorbcbyp.x.pipedream.net/fichier.txt'
 headers = {'user-agent': 'MyBot', 'Referer': 'https://www.facebook.com'}
