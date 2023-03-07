@@ -2,6 +2,30 @@
 import requests
 import re
 
+# Proxy NordVPN 
+# Login et password à récupérer sur l'espace client
+user = 'XXX'
+password = 'XXX'
+serveur = 'amsterdam.nl.socks.nordhold.net'
+port = '1080'
+proxy_servers = {
+    'http': f'socks5://{user}:{password}@{serveur}:{port}',
+    'https': f'socks5://{user}:{password}@{serveur}:{port}',
+}
+
+try:
+    url = 'https://www.whatismy.eu/index.php?x=ip'
+    r = requests.get(url, proxies=proxy_servers, timeout=20)
+    print(r.text)
+except requests.exceptions.ConnectTimeout:
+    print('Timeout')
+except requests.exceptions.ProxyError:
+    print('Proxy Error')
+
+
+
+exit()
+
 # Request simple
 url = 'https://en0cuocorbcbyp.x.pipedream.net/fichier.txt'
 r = requests.get(url)
